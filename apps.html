@@ -530,9 +530,28 @@
                 <div class="category-header">
                     <span class="category-icon">🛡️</span>
                     <h2 class="category-title">Security Tools</h2>
-                    <span class="category-count">1</span>
+                    <span class="category-count">2</span>
                 </div>
                 <div class="app-grid">
+                    <a class="app-card" href="#" onclick="launchApp('bughunter'); return false;">
+                        <div class="app-header">
+                            <div class="app-icon" style="background: linear-gradient(135deg, #ef4444, #b91c1c);">🎯</div>
+                            <div class="app-info">
+                                <div class="app-name">BugHunter</div>
+                                <span class="app-status status-dev">New</span>
+                            </div>
+                        </div>
+                        <p class="app-desc">RL-powered bug bounty agent. Autonomous vuln discovery, PPO policy, 60+ attack types.</p>
+                        <div class="app-meta">
+                            <span class="app-tag">Python</span>
+                            <span class="app-tag">PyTorch</span>
+                            <span class="app-tag">Gymnasium</span>
+                        </div>
+                        <div class="app-action">
+                            <span class="app-action-text">Open Project →</span>
+                        </div>
+                    </a>
+                    
                     <a class="app-card" href="#" onclick="launchApp('cyberguard'); return false;">
                         <div class="app-header">
                             <div class="app-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">🔒</div>
@@ -699,6 +718,11 @@
                 path: 'C:\\Users\\cl385\\OneDrive\\Documents\\FinancialFreedomAgents'
             },
             // Security
+            bughunter: {
+                type: 'folder',
+                path: 'C:\\dev\\python\\_PROJECTS\\ai_ml\\BugHunter',
+                cmd: 'bughunter scan --target http://localhost:3000'
+            },
             cyberguard: {
                 type: 'local',
                 path: 'C:\\dev\\python\\_PROJECTS\\work\\red team project app',
