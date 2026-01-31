@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Launcher - CipherCrypt</title>
+    <script>
+        // Auth check - same as main site
+        (function() {
+            const PASS = 'cipher2026';
+            const KEY = 'ciphercrypt_auth';
+            if (sessionStorage.getItem(KEY) !== 'true') {
+                const input = prompt('Developer Access - Enter password:');
+                if (input !== PASS) {
+                    document.body.innerHTML = '<div style="display:flex;height:100vh;align-items:center;justify-content:center;background:#0a0a0a;color:#fff;font-family:sans-serif;"><h1>🔒 Access Denied</h1></div>';
+                    throw new Error('Unauthorized');
+                }
+                sessionStorage.setItem(KEY, 'true');
+            }
+        })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: #141414;
+            --surface-hover: #1a1a1a;
+            --border: #262626;
+            --text: #fafafa;
+            --text-muted: #a1a1a1;
+            --accent: #22c55e;
+            --accent-dim: #16a34a;
+            --blue: #3b82f6;
+            --purple: #8b5cf6;
+            --orange: #f97316;
+            --pink: #ec4899;
+            --cyan: #06b6d4;
+            --yellow: #eab308;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* Header */
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: var(--bg);
+            z-index: 100;
+        }
+        
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--accent);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 32px;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+        
+        nav a:hover { color: var(--text); }
+        nav a.active { color: var(--accent); }
+        
+        /* Main content */
+        .main {
+            padding: 48px 0;
+        }
+        
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .page-subtitle {
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+        
+        /* Category */
+        .category {
+            margin-bottom: 48px;
+        }
+        
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .category-icon {
+            font-size: 1.5rem;
+        }
+        
+        .category-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        
+        .category-count {
+            background: var(--surface);
+            color: var(--text-muted);
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+        }
+        
+        /* App grid */
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        
+        .app-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.2s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .app-card:hover {
+            background: var(--surface-hover);
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        
+        .app-card.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .app-card.disabled:hover {
+            transform: none;
+            border-color: var(--border);
+        }
+        
+        .app-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .app-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        
+        .app-info {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .app-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        
+        .app-status {
+            display: inline-block;
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        
+        .status-live { background: rgba(34, 197, 94, 0.2); color: var(--accent); }
+        .status-dev { background: rgba(59, 130, 246, 0.2); color: var(--blue); }
+        .status-research { background: rgba(139, 92, 246, 0.2); color: var(--purple); }
+        .status-planned { background: rgba(161, 161, 161, 0.2); color: var(--text-muted); }
+        
+        .app-desc {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            flex: 1;
+        }
+        
+        .app-meta {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        .app-tag {
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            background: var(--border);
+            color: var(--text-muted);
+        }
+        
+        .app-action {
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .app-action-text {
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-weight: 500;
+        }
+        
+        .app-action-arrow {
+            color: var(--accent);
+        }
+        
+        /* Quick stats */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+        
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        
+        /* Footer */
+        footer {
+            padding: 24px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav { display: none; }
+            .app-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🔐</span>
+                CipherCrypt
+            </a>
+            <nav>
+                <a href="/">Home</a>
+                <a href="/apps.html" class="active">Apps</a>
+                <a href="https://github.com/ciphercrypt-security" target="_blank">GitHub</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <h1 class="page-title">🚀 App Launcher</h1>
+            <p class="page-subtitle">Your tools and projects in one place</p>
+            
+            <!-- Quick Stats -->
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Production Apps</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">1</div>
+                    <div class="stat-label">Live Trading</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">2</div>
+                    <div class="stat-label">Research</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">5+</div>
+                    <div class="stat-label">Desktop Tools</div>
+                </div>
+            </div>
+
+            <!-- Production Apps -->
+            <section class="category">
+                <div class="category-header">
+                    <span class="category-icon">🔥</span>
+                    <h2 class="category-title">Production Ready</h2>
+                    <span class="category-count">3</span>
+                </div>
+                <div class="app-grid">
+                    <a class="app-card" href="#" onclick="launchApp('dbmigrate'); return false;">
+                        <div class="app-header">
+                            <div class="app-icon" style="background: linear-gradient(135deg, #22c55e, #16a34a);">🗃️</div>
+                            <div class="app-info">
+                                <div class="app-name">DBMigrate</div>
+                                <span class="app-status status-live">Ready</span>
+                            </div>
+                        </div>
+                        <p class="app-desc">Universal database migration. 60+ databases, 9 paradigms. CLI + REST API.</p>
+                        <div class="app-meta">
+                            <span class="app-tag">Python</span>
+                            <span class="app-tag">$299-$2500</span>
+                        </div>
+                        <div class="app-action">
+                            <span class="app-action-text">Launch →</span>
+                        </div>
+                    </a>
+                    
+                    <a class="app-card" href="#" onclick="launchApp('quantumvault'); return false;">
+                        <div class="app-header">
+                            <div class="app-icon" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);">⚛️</div>
+                            <div class="app-info">
+                                <div class="app-name">QuantumVault</div>
+                                <span class="app-status status-live">Ready</span>
+                            </div>
+                        </div>
+                        <p class="app-desc">Quantum key distribution SaaS. N-Party QKD, GHZ states, Mermin inequality.</p>
+                        <div class="app-meta">
+                            <span class="app-tag">Python</span>
+                            <span class="app-tag">Enterprise</span>
+                        </div>
+                        <div class="app-action">
+                            <span class="app-action-text">Launch →</span>
+                        </div>
+                    </a>
+                    
+                    <a class="app-card" href="#" onclick="launchApp('rei'); return false;">
+                        <div class="app-header">
+                            <div class="app-icon" style="background: linear-gradient(135deg, #f97316, #ea580c);">🏠</div>
+                            <div class="app-info">
+                                <div class="app-name">REI Application</div>
+                                <span class="app-status status-live">Active</span>
+                            </div>
+                        </div>
+                        <p class="app-desc">Loepker Family real estate app. REPS tracking, expenses, time logging.</p>
+                        <div class="app-meta">
+                            <span class="app-tag">Django</span>
+                            <span class="app-tag">Internal</span>
+                        </div>
+                        <div class="app-action">
+                            <span class="app-action-text">Launch →</span>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Trading -->
+            <section class="category">
+                <div class="category-header">
+                    <span class="category-icon">📈</span>
+                    <h2 class="category-title">Trading Systems</h2>
+                    <span class="category-count">1</span>
+                </div>
+                <div class="app-grid">
+                    <a class="app-card" href="#" onclick="launchApp('apex'); return false;">
+                        <div class="app-header">
+                            <div class="app-icon" style="background: linear-gradient(135deg, #eab308, #ca8a04);">🦖</div>
+                            <div class="app-info">
+                                <div class="app-name">APEX Predator</div>
+                                <span class="app-status status-dev">Paper Trading</span>
+                            </div>
+                        </div>
+                        <p class="app-desc">Quantitative crypto trading. QR-DQN, HMM regime detection, 50+ indicators.</p>
+                        <div class="app-meta">
+                            <span class="app-tag">Python</span>
+                            <span class="app-tag">Alpaca</span>
+                            <span class="app-tag">$100K</span>
+                        </div>
+                        <div class="app-action">
+                            <span class="app-action-text">View Dashboard →</span>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Research -->
+            <section class="category">
+                <div class="category-header">
+                    <span class="category-icon">🔬</span>
+                    <h2 class="category-title">Research & AI Agents</h2>
+                    <span class="category-count">4</span>
+                </div>
+                <div class="app-grid">
+                    <a class="app-card" href="#" onclick="launchApp('qrla'); return false;">
+                        <div class="app-header">
+                            <div class="app-icon" style="background: linear-gradient(135deg, #ec4899, #db2777);">🔮</div>
+                            <div class="app-info">
+                                <div class="app-name">QRLA</div>
+                                <span class="app-status status-research">Research</span>
+                            </div>
+                        </div>
+                        <p class="app-desc">Quantum RL agent. Quantum circuits as policy networks, VQE, QAOA discoveries.</p>
+                        <div class="app-meta">
+                            <span class="app-tag">Python</span>
+                            <span class="app-tag">Quantum</span>
+                        </div>
+                        <div class="app-action">
+                            <span class="app-action-text">Open Project →</span>
+                        </div>
+                    </a>
+                    
+                    <a class="app-card" href="#" onclick="launchApp('esa'); return false;">
+                        <div class="app-header">
+                            <div class="app-icon" style="background: linear-gradient(135deg, #06b6d4, #0891b2);">🤖</div>
+                            <div class="app-info">
+                                <div class="app-name">ESA</div>
+                                <span class="app-status status-research">Framework</span>
+                            </div>
+                        </div>
+                        <p class="app-desc">Expert Software Agent. Autonomous dev with PM, Architect, Frontend, Backend agents.</p>
+                        <div class="app-meta">
+                            <span class="app-tag">Python</span>
+                            <span class="app-tag">Multi-Agent</span>
+                        </div>
+                        <div class="app-action">
+                            <span class="app-action-text">Open Project →</span>
+                        </div>
+                    </a>
+                    
+                    <a class="app-card" href="#" onclick="launchApp('librarian'); return false;">
+                        <div class="app-header">
+                            <div class="app-icon" style="background: linear-gradient(135deg, #3b82f6, #2563eb);">📚</div>
+                            <div class="app-info">
+                                <div class="app-name">LibrarianAI</div>
+                                <span class="app-status status-live">Working</span>
+                            </div>
+                        </div>
+                        <p class="app-desc">Multi-agent knowledge system. Orchestrator, Researcher, Analyst, Writer, Coder.</p>
+                        <div class="app-meta">
+                            <span class="app-tag">Python</span>
+                            <span class="app-tag">Vector Search</span>
+                        </div>
+                        <div class="app-action">
+                            <span class="app-action-text">Launch →</span>
+                        </div>
+                    </a>
+                    
+                    <a class="app-card" href="#" onclick="launchApp('ffa'); return false;">
+                        <div class="app-header">
+                            <div class="app-icon" style="background: linear-gradient(135deg, #64748b, #475569);">🏢</div>
+                            <div class="app-info">
+                                <div class="app-name">FF Agents</div>
+                                <span class="app-status status-planned">Planned</span>
+                            </div>
+                        </div>
+                        <p class="app-desc">Financial Freedom business agents. Property, Accounting, Legal automation.</p>
+                        <div class="app-meta">
+                            <span class="app-tag">Python</span>
+                            <span class="app-tag">Business</span>
+                        </div>
+                        <div class="app-action">
+                            <span class="app-action-text">Open Project →</span>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Security Tools -->
+            <section class="category">
+                <div class="category-header">
+                    <span class="category-icon">🛡️</span>
+                    <h2 class="category-title">Security Tools</h2>
+                    <span class="category-count">1</span>
+                </div>
+                <div class="app-grid">
+                    <a class="app-card" href="#" onclick="launchApp('cyberguard'); return false;">
+                        <div class="app-header">
+                            <div class="app-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">🔒</div>
+                            <div class="app-info">
+                                <div class="app-name">CyberGuard Pro</div>
+                                <span class="app-status status-dev">Dev</span>
+                            </div>
+                        </div>
+                        <p class="app-desc">Security assessment platform. Metasploit + OWASP ZAP, SCAP compliance, reports.</p>
+                        <div class="app-meta">
+                            <span class="app-tag">Python</span>
+                            <span class="app-tag">Pluggy</span>
+                        </div>
+                        <div class="app-action">
+                            <span class="app-action-text">Launch →</span>
+                        </div>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Desktop Apps -->
+            <section class="category">
+                <div class="category-header">
+                    <span class="category-icon">🖥️</span>
+                    <h2 class="category-title">Desktop Apps</h2>
+                    <span class="category-count">5</span>
+                </div>
+                <div class="app-grid">
+                    <a class="app-card" href="#" onclick="launchApp('richstrike'); return false;">
+                        <div class="app-header">
+                            <div class="app-icon" style="background: linear-gradient(135deg, #22d3ee, #0891b2);">📊</div>
+                            <div class="app-info">
+                                <div class="app-name">RichStrike</div>
+                                <span class="app-status status-dev">Dev</span>
+                            </div>
+                        </div>
+                        <p class="app-desc">Stock filings tracker. SEC filings, auto KPI calculation, SQLite caching.</p>
+                        <div class="app-meta">
+                            <span class="app-tag">PySide6</span>
+                        </div>
+                        <div class="app-action">
+                            <span class="app-action-text">Launch →</span>
+                        </div>
+                    </a>
+                    
+                    <a class="app-card" href="#" onclick="launchApp('budgetboost'); return false;">
+                        <div class="app-header">
+                            <div class="app-icon" style="background: linear-gradient(135deg, #84cc16, #65a30d);">💰</div>
+                            <div class="app-info">
+                                <div class="app-name">BudgetBoost</div>
+                                <span class="app-status status-dev">Dev</span>
+                            </div>
+                        </div>
+                        <p class="app-desc">Flask budget tracking application.</p>
+                        <div class="app-meta">
+                            <span class="app-tag">Flask</span>
+                        </div>
+                        <div class="app-action">
+                            <span class="app-action-text">Launch →</span>
+                        </div>
+                    </a>
+                    
+                    <a class="app-card" href="#" onclick="launchApp('lightmatter'); return false;">
+                        <div class="app-header">
+                            <div class="app-icon" style="background: linear-gradient(135deg, #a855f7, #9333ea);">💬</div>
+                            <div class="app-info">
+                                <div class="app-name">LightMatterChat</div>
+                                <span class="app-status status-dev">Dev</span>
+                            </div>
+                        </div>
+                        <p class="app-desc">FastAPI real-time chat with JWT auth and WebSockets.</p>
+                        <div class="app-meta">
+                            <span class="app-tag">FastAPI</span>
+                        </div>
+                        <div class="app-action">
+                            <span class="app-action-text">Launch →</span>
+                        </div>
+                    </a>
+                    
+                    <a class="app-card" href="#" onclick="launchApp('japanese'); return false;">
+                        <div class="app-header">
+                            <div class="app-icon" style="background: linear-gradient(135deg, #f472b6, #ec4899);">🇯🇵</div>
+                            <div class="app-info">
+                                <div class="app-name">Japanese Learner</div>
+                                <span class="app-status status-dev">Dev</span>
+                            </div>
+                        </div>
+                        <p class="app-desc">Hiragana/Katakana learning app.</p>
+                        <div class="app-meta">
+                            <span class="app-tag">PyQt5</span>
+                        </div>
+                        <div class="app-action">
+                            <span class="app-action-text">Launch →</span>
+                        </div>
+                    </a>
+                    
+                    <a class="app-card" href="#" onclick="launchApp('wealth'); return false;">
+                        <div class="app-header">
+                            <div class="app-icon" style="background: linear-gradient(135deg, #fbbf24, #f59e0b);">💎</div>
+                            <div class="app-info">
+                                <div class="app-name">Family Wealth Center</div>
+                                <span class="app-status status-dev">Dev</span>
+                            </div>
+                        </div>
+                        <p class="app-desc">Wealth projection, financial planning, and scenario picking suite.</p>
+                        <div class="app-meta">
+                            <span class="app-tag">Python</span>
+                        </div>
+                        <div class="app-action">
+                            <span class="app-action-text">Launch →</span>
+                        </div>
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            © 2026 CipherCrypt · App Launcher v1.0
+        </div>
+    </footer>
+
+    <script>
+        // App launch configurations
+        const appConfig = {
+            // Production
+            dbmigrate: {
+                type: 'local',
+                path: 'C:\\dev\\python\\_PROJECTS\\ai_ml\\DBMigrate',
+                cmd: 'python -m dbmigrate.web_app'
+            },
+            quantumvault: {
+                type: 'local', 
+                path: 'C:\\Users\\cl385\\OneDrive\\Documents\\programming\\python\\_PROJECTS\\ai_ml\\QuantumVault',
+                cmd: 'python -m quantumvault.server'
+            },
+            rei: {
+                type: 'local',
+                path: 'C:\\Users\\cl385\\OneDrive\\Documents\\Real Estate\\Loepker Family REI Application\\Tax App',
+                cmd: 'python manage.py runserver'
+            },
+            // Trading
+            apex: {
+                type: 'local',
+                path: 'C:\\Users\\cl385\\OneDrive\\Documents\\programming\\python\\RL testing',
+                cmd: 'python dashboard.py'
+            },
+            // Research
+            qrla: {
+                type: 'folder',
+                path: 'C:\\Users\\cl385\\OneDrive\\Documents\\programming\\python\\_PROJECTS\\ai_ml\\QRLA'
+            },
+            esa: {
+                type: 'folder',
+                path: 'C:\\Users\\cl385\\OneDrive\\Documents\\programming\\python\\_PROJECTS\\ai_ml\\ESA'
+            },
+            librarian: {
+                type: 'local',
+                path: 'C:\\Users\\cl385\\OneDrive\\Documents\\programming\\python\\_PROJECTS\\ai_ml\\RL_BOTS',
+                cmd: 'python librarian_agent.py'
+            },
+            ffa: {
+                type: 'folder',
+                path: 'C:\\Users\\cl385\\OneDrive\\Documents\\FinancialFreedomAgents'
+            },
+            // Security
+            cyberguard: {
+                type: 'local',
+                path: 'C:\\dev\\python\\_PROJECTS\\work\\red team project app',
+                cmd: 'python main.py'
+            },
+            // Desktop Apps
+            richstrike: {
+                type: 'local',
+                path: 'C:\\dev\\python\\_PROJECTS\\major_apps\\STOCK TRACKER',
+                cmd: 'python main.py'
+            },
+            budgetboost: {
+                type: 'local',
+                path: 'C:\\dev\\python\\_PROJECTS\\major_apps\\BudgetBoost',
+                cmd: 'python app.py'
+            },
+            lightmatter: {
+                type: 'local',
+                path: 'C:\\dev\\python\\_PROJECTS\\major_apps\\LightMatterChat',
+                cmd: 'python main.py'
+            },
+            japanese: {
+                type: 'local',
+                path: 'C:\\dev\\python\\_PROJECTS\\major_apps\\JAPANESE LANGUAGE APP',
+                cmd: 'python main.py'
+            },
+            wealth: {
+                type: 'folder',
+                path: 'C:\\dev\\python\\_PROJECTS\\major_apps\\Family Wealth Center'
+            }
+        };
+
+        function launchApp(appId) {
+            const config = appConfig[appId];
+            if (!config) {
+                alert('App configuration not found: ' + appId);
+                return;
+            }
+
+            // For now, show the launch command since we're in browser context
+            // In a real setup, this would call a local server or electron backend
+            const info = `🚀 ${appId.toUpperCase()}\n\nPath: ${config.path}\n${config.cmd ? 'Command: ' + config.cmd : 'Type: Open folder'}\n\nNote: Local apps require running on your machine. Copy the path/command to launch.`;
+            
+            alert(info);
+            
+            // Copy path to clipboard
+            navigator.clipboard.writeText(config.path).then(() => {
+                console.log('Path copied to clipboard');
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+            });
+        }
+    </script>
+</body>
+</html>
