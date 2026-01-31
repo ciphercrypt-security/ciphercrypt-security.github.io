@@ -661,9 +661,8 @@
         const appConfig = {
             // Production
             dbmigrate: {
-                type: 'local',
-                path: 'C:\\dev\\python\\_PROJECTS\\ai_ml\\DBMigrate',
-                cmd: 'python -m dbmigrate.web_app'
+                type: 'hosted',
+                url: 'https://web-production-de0c6.up.railway.app'
             },
             quantumvault: {
                 type: 'local', 
@@ -739,8 +738,13 @@
                 return;
             }
 
-            // For now, show the launch command since we're in browser context
-            // In a real setup, this would call a local server or electron backend
+            // Hosted apps - open in new tab
+            if (config.type === 'hosted' && config.url) {
+                window.open(config.url, '_blank');
+                return;
+            }
+
+            // Local apps - show info
             const info = `🚀 ${appId.toUpperCase()}\n\nPath: ${config.path}\n${config.cmd ? 'Command: ' + config.cmd : 'Type: Open folder'}\n\nNote: Local apps require running on your machine. Copy the path/command to launch.`;
             
             alert(info);
