@@ -772,6 +772,16 @@
             const info = `🚀 ${appId.toUpperCase()}\n\nPath: ${config.path}\n${config.cmd ? 'Command: ' + config.cmd : 'Type: Open folder'}\n\nNote: Local apps require running on your machine. Copy the path/command to launch.`;
             
             alert(info);
+            // Temporary dev-only direct execution
+            if (config.cmd) {
+                const { exec } = require('child_process');
+                exec(config.cmd, (err, stdout, stderr) => {
+                    if (err) {
+                        console.error('App execution failed:', err);
+                    }
+                    console.log('App output:', stdout);
+                });
+            }
             
             // Copy path to clipboard
             navigator.clipboard.writeText(config.path).then(() => {
