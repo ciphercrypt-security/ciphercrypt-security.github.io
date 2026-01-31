@@ -19,7 +19,7 @@
             }
         })();
     </script>
-    <meta name="description" content="Open-source security tools built for developers. Database migration security, secrets management, and infrastructure hardening.">
+    <meta name="description" content="Enterprise security tools: quantum key distribution, database migration security, penetration testing, and AI-powered consulting.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <style>
@@ -31,6 +31,9 @@
             --text-muted: #a1a1a1;
             --accent: #22c55e;
             --accent-dim: #16a34a;
+            --purple: #8b5cf6;
+            --blue: #3b82f6;
+            --orange: #f97316;
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -110,7 +113,7 @@
         .hero p {
             font-size: 1.25rem;
             color: var(--text-muted);
-            max-width: 600px;
+            max-width: 650px;
             margin: 0 auto 40px;
         }
         
@@ -208,6 +211,13 @@
         .product-name {
             font-size: 1.5rem;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .product-icon {
+            font-size: 1.75rem;
         }
         
         .product-status {
@@ -220,6 +230,11 @@
         
         .product-status.soon {
             background: rgba(34, 197, 94, 0.15);
+            color: var(--accent);
+        }
+        
+        .product-status.ready {
+            background: rgba(34, 197, 94, 0.25);
             color: var(--accent);
         }
         
@@ -268,6 +283,40 @@
         .code-block .cmd { color: var(--accent); }
         .code-block .flag { color: #60a5fa; }
         .code-block .string { color: #fbbf24; }
+        
+        /* Services */
+        .services {
+            padding: 80px 0;
+            border-top: 1px solid var(--border);
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        
+        .service-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px;
+        }
+        
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+        
+        .service-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+        }
+        
+        .service-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
         
         /* About */
         .about {
@@ -350,24 +399,21 @@
             </a>
             <nav>
                 <a href="#products">Products</a>
+                <a href="#services">Consulting</a>
                 <a href="#about">About</a>
                 <a href="/apps.html">🚀 Apps</a>
                 <a href="https://github.com/ciphercrypt-security" target="_blank">GitHub</a>
-                <a href="https://x.com/CipherCryptt1" target="_blank">X</a>
             </nav>
         </div>
     </header>
     
     <section class="hero">
         <div class="container">
-            <h1>Security tools for<br>modern infrastructure</h1>
-            <p>Open-source tools that help developers secure databases, manage secrets, and harden their stack. Built to actually use, not just demo.</p>
+            <h1>Enterprise security<br>for the quantum age</h1>
+            <p>Quantum-safe cryptography, secure database migrations, penetration testing platforms, and AI-powered security consulting. Built for enterprises that can't afford to wait.</p>
             <div class="cta-group">
                 <a href="#products" class="btn btn-primary">View Products</a>
-                <a href="https://github.com/ciphercrypt" class="btn btn-secondary" target="_blank">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
-                    GitHub
-                </a>
+                <a href="#services" class="btn btn-secondary">Consulting Services</a>
             </div>
         </div>
     </section>
@@ -375,65 +421,129 @@
     <section class="products" id="products">
         <div class="container">
             <div class="section-label">Products</div>
-            <h2 class="section-title">What we're building</h2>
+            <h2 class="section-title">Security infrastructure, built right</h2>
             
+            <!-- QuantumVault -->
             <div class="product-card featured">
-                <span class="featured-badge">Coming Soon</span>
+                <span class="featured-badge">Flagship</span>
                 <div class="product-header">
-                    <h3 class="product-name">DBMigrate</h3>
-                    <span class="product-status soon">Q1 2026</span>
+                    <h3 class="product-name"><span class="product-icon">⚛️</span> QuantumVault</h3>
+                    <span class="product-status ready">Ready</span>
                 </div>
                 <p class="product-desc">
-                    Secure database migrations with built-in secret detection, rollback protection, and audit logging. 
-                    Never accidentally commit credentials or break prod again.
+                    Post-quantum key distribution as a service. Protect your encryption keys today against tomorrow's quantum computers. 
+                    Built on N-Party QKD with GHZ state verification and Mermin inequality testing.
                 </p>
                 <div class="product-features">
-                    <span class="feature">Pre-migration secret scanning</span>
-                    <span class="feature">Automatic rollback on failure</span>
-                    <span class="feature">Migration audit trail</span>
-                    <span class="feature">CI/CD integration</span>
-                    <span class="feature">Multi-database support</span>
-                    <span class="feature">Dry-run mode</span>
+                    <span class="feature">N-Party quantum key distribution</span>
+                    <span class="feature">GHZ state entanglement</span>
+                    <span class="feature">Mermin inequality verification</span>
+                    <span class="feature">Multi-tenant SaaS architecture</span>
+                    <span class="feature">REST API & SDK</span>
+                    <span class="feature">Full audit logging</span>
                 </div>
                 <div class="code-block">
                     <code>
-                        <span class="cmd">$</span> dbmigrate run <span class="flag">--scan-secrets</span> <span class="flag">--dry-run</span><br>
-                        <span style="color: #22c55e;">✓</span> No secrets detected in migration files<br>
-                        <span style="color: #22c55e;">✓</span> Schema changes validated<br>
-                        <span style="color: #60a5fa;">→</span> Ready to apply 3 migrations
+                        <span class="cmd">$</span> curl -X POST https://api.quantumvault.io/v1/keys/generate \<br>
+                        &nbsp;&nbsp;<span class="flag">-H</span> <span class="string">"Authorization: Bearer $TOKEN"</span> \<br>
+                        &nbsp;&nbsp;<span class="flag">-d</span> <span class="string">'{"parties": 3, "key_length": 256}'</span><br><br>
+                        <span style="color: #22c55e;">✓</span> Key generated with quantum verification<br>
+                        <span style="color: #22c55e;">✓</span> Mermin inequality: S = 2.78 (classical limit: 2.0)
                     </code>
                 </div>
             </div>
             
-            <div class="product-card">
+            <!-- DBMigrate -->
+            <div class="product-card featured">
+                <span class="featured-badge">Coming Soon</span>
                 <div class="product-header">
-                    <h3 class="product-name">VaultSync</h3>
-                    <span class="product-status">Planned</span>
+                    <h3 class="product-name"><span class="product-icon">🗃️</span> DBMigrate</h3>
+                    <span class="product-status soon">Q1 2026</span>
                 </div>
                 <p class="product-desc">
-                    Sync secrets between your vault (HashiCorp, AWS Secrets Manager, 1Password) and your local dev environment. 
-                    Rotate without redeploying.
+                    Universal database migration with built-in security. Migrate any database to any database, any paradigm to any paradigm. 
+                    Secret scanning, rollback protection, and compliance-ready audit trails included.
                 </p>
                 <div class="product-features">
-                    <span class="feature">Multi-vault support</span>
-                    <span class="feature">Local .env sync</span>
-                    <span class="feature">Rotation webhooks</span>
+                    <span class="feature">60+ database support</span>
+                    <span class="feature">9 paradigm conversions</span>
+                    <span class="feature">AI-powered stored procedure conversion</span>
+                    <span class="feature">Pre-migration secret scanning</span>
+                    <span class="feature">Automatic rollback on failure</span>
+                    <span class="feature">CLI, REST API, Docker</span>
+                </div>
+                <div class="code-block">
+                    <code>
+                        <span class="cmd">$</span> dbmigrate run <span class="flag">--source</span> oracle <span class="flag">--target</span> postgres <span class="flag">--scan-secrets</span><br>
+                        <span style="color: #22c55e;">✓</span> No secrets detected in migration files<br>
+                        <span style="color: #22c55e;">✓</span> 847 tables analyzed, 12 SPs converted<br>
+                        <span style="color: #60a5fa;">→</span> Migration complete in 4m 32s
+                    </code>
                 </div>
             </div>
             
+            <!-- CyberGuard Pro -->
             <div class="product-card">
                 <div class="product-header">
-                    <h3 class="product-name">AuditTrail</h3>
-                    <span class="product-status">Planned</span>
+                    <h3 class="product-name"><span class="product-icon">🛡️</span> CyberGuard Pro</h3>
+                    <span class="product-status">In Development</span>
                 </div>
                 <p class="product-desc">
-                    Lightweight audit logging for database operations. Know who ran what query, when, and from where. 
-                    SOC2-ready without the enterprise price tag.
+                    Enterprise security assessment platform. Unified interface for penetration testing, vulnerability scanning, and compliance reporting.
+                    Plugin architecture for extensibility.
                 </p>
                 <div class="product-features">
-                    <span class="feature">Query logging</span>
-                    <span class="feature">User attribution</span>
-                    <span class="feature">Compliance exports</span>
+                    <span class="feature">Metasploit integration</span>
+                    <span class="feature">OWASP ZAP scanning</span>
+                    <span class="feature">SCAP compliance checks</span>
+                    <span class="feature">Automated PDF reports</span>
+                    <span class="feature">Plugin architecture (Pluggy)</span>
+                    <span class="feature">License validation system</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-label">Services</div>
+            <h2 class="section-title">AI-Powered Security Consulting</h2>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🤖</div>
+                    <h3>Agent-Driven Assessments</h3>
+                    <p>Our AI agents work alongside human experts to conduct thorough security assessments. Faster discovery, deeper coverage, consistent methodology.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🔬</div>
+                    <h3>Quantum Readiness Audit</h3>
+                    <p>Evaluate your cryptographic infrastructure against post-quantum threats. Get a roadmap for quantum-safe migration before it's urgent.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">📊</div>
+                    <h3>GRC Automation</h3>
+                    <p>Automate governance, risk, and compliance workflows with AI. SOC2, ISO 27001, NIST—continuous compliance instead of annual fire drills.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🔄</div>
+                    <h3>Database Security Review</h3>
+                    <p>Pre-migration security audits, access control reviews, and data classification. Know your risk before you move.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🎯</div>
+                    <h3>Red Team Operations</h3>
+                    <p>Adversary simulation with full-spectrum attack testing. Find the gaps before attackers do.</p>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">📚</div>
+                    <h3>Security Architecture Review</h3>
+                    <p>Design review for new systems, cloud migrations, and infrastructure changes. Build security in from the start.</p>
                 </div>
             </div>
         </div>
@@ -443,31 +553,33 @@
         <div class="container about-grid">
             <div>
                 <div class="section-label">About</div>
-                <h2 class="section-title">Built by builders</h2>
+                <h2 class="section-title">Security expertise,<br>modern approach</h2>
                 <p>
-                    CipherCrypt started from frustration. Too many security tools are built for demos and investor decks, 
-                    not for developers who need to ship.
+                    CipherCrypt combines deep security expertise with cutting-edge technology. 
+                    We build tools that security teams actually want to use, and provide consulting 
+                    that delivers actionable results.
                 </p>
                 <p>
-                    We're building the tools we wish existed: open-source where possible, reasonably priced where not, 
-                    and actually pleasant to use.
+                    Our focus: quantum cryptography, database security, and AI-augmented security operations.
+                    We're preparing enterprises for threats that don't exist yet—because by the time they do, 
+                    it's too late.
                 </p>
                 <p>
-                    Based in Indiana. Small team. Big ambitions.
+                    Based in Indiana. CISSP-certified. Building the future of enterprise security.
                 </p>
             </div>
             <div class="values">
                 <div class="value">
-                    <h4>🔓 Open Source First</h4>
-                    <p>Core tools are open. Premium features fund development, not gatekeep basics.</p>
+                    <h4>⚛️ Quantum-First Thinking</h4>
+                    <p>Post-quantum cryptography isn't optional—it's inevitable. We help you get ahead of the curve.</p>
                 </div>
                 <div class="value">
-                    <h4>🛠️ Developer Experience</h4>
-                    <p>If it's annoying to use, people won't use it. Security that fits your workflow.</p>
+                    <h4>🤖 AI-Augmented, Human-Led</h4>
+                    <p>Our AI agents enhance human expertise, they don't replace it. Better coverage, faster results.</p>
                 </div>
                 <div class="value">
-                    <h4>📦 Actually Ships</h4>
-                    <p>Working software over roadmap slides. We build in public.</p>
+                    <h4>🛠️ Tools That Ship</h4>
+                    <p>We build software we use ourselves. No vaporware, no slideware—working code.</p>
                 </div>
             </div>
         </div>
@@ -476,11 +588,11 @@
     <footer>
         <div class="container">
             <div class="social-links">
-                <a href="https://github.com/ciphercrypt" target="_blank">GitHub</a>
+                <a href="https://github.com/ciphercrypt-security" target="_blank">GitHub</a>
                 <a href="https://x.com/CipherCryptt1" target="_blank">X / Twitter</a>
                 <a href="https://moltbook.com/u/CipherCrypt" target="_blank">Moltbook</a>
             </div>
-            <p>© 2026 CipherCrypt. Building security tools that don't suck.</p>
+            <p>© 2026 CipherCrypt. Enterprise security for the quantum age.</p>
         </div>
     </footer>
 </body>
