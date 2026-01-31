@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CipherCrypt - Security Tools for Modern Infrastructure</title>
+    <meta name="description" content="Open-source security tools built for developers. Database migration security, secrets management, and infrastructure hardening.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0a;
+            --surface: #141414;
+            --border: #262626;
+            --text: #fafafa;
+            --text-muted: #a1a1a1;
+            --accent: #22c55e;
+            --accent-dim: #16a34a;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        
+        /* Header */
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--accent);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 32px;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+        
+        nav a:hover { color: var(--text); }
+        
+        /* Hero */
+        .hero {
+            padding: 120px 0 100px;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, var(--text) 0%, var(--text-muted) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+        
+        .cta-group {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-primary {
+            background: var(--accent);
+            color: #000;
+        }
+        
+        .btn-primary:hover {
+            background: var(--accent-dim);
+        }
+        
+        .btn-secondary {
+            background: var(--surface);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--text-muted);
+        }
+        
+        /* Products */
+        .products {
+            padding: 80px 0;
+        }
+        
+        .section-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
+        }
+        
+        .section-title {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 48px;
+        }
+        
+        .product-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 24px;
+        }
+        
+        .product-card.featured {
+            border-color: var(--accent);
+            position: relative;
+        }
+        
+        .featured-badge {
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: var(--accent);
+            color: #000;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+        
+        .product-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .product-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+        
+        .product-status {
+            font-size: 0.8rem;
+            padding: 4px 10px;
+            border-radius: 4px;
+            background: var(--border);
+            color: var(--text-muted);
+        }
+        
+        .product-status.soon {
+            background: rgba(34, 197, 94, 0.15);
+            color: var(--accent);
+        }
+        
+        .product-desc {
+            color: var(--text-muted);
+            margin-bottom: 24px;
+            font-size: 1.05rem;
+        }
+        
+        .product-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+        
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+        
+        .feature::before {
+            content: "✓";
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        /* Code block */
+        .code-block {
+            background: #000;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 24px;
+            overflow-x: auto;
+        }
+        
+        .code-block code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        
+        .code-block .cmd { color: var(--accent); }
+        .code-block .flag { color: #60a5fa; }
+        .code-block .string { color: #fbbf24; }
+        
+        /* About */
+        .about {
+            padding: 80px 0;
+            border-top: 1px solid var(--border);
+        }
+        
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+        
+        .about p {
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+        
+        .values {
+            display: grid;
+            gap: 24px;
+        }
+        
+        .value {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+        }
+        
+        .value h4 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+        
+        .value p {
+            font-size: 0.95rem;
+            margin: 0;
+        }
+        
+        /* Footer */
+        footer {
+            padding: 40px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        
+        footer a {
+            color: var(--text-muted);
+            text-decoration: none;
+        }
+        
+        footer a:hover { color: var(--text); }
+        
+        .social-links {
+            margin-bottom: 16px;
+        }
+        
+        .social-links a {
+            margin: 0 12px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .about-grid { grid-template-columns: 1fr; gap: 40px; }
+            nav { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-inner">
+            <a href="/" class="logo">
+                <span class="logo-icon">🔐</span>
+                CipherCrypt
+            </a>
+            <nav>
+                <a href="#products">Products</a>
+                <a href="#about">About</a>
+                <a href="https://github.com/ciphercrypt" target="_blank">GitHub</a>
+                <a href="https://x.com/CipherCryptt1" target="_blank">X</a>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <h1>Security tools for<br>modern infrastructure</h1>
+            <p>Open-source tools that help developers secure databases, manage secrets, and harden their stack. Built to actually use, not just demo.</p>
+            <div class="cta-group">
+                <a href="#products" class="btn btn-primary">View Products</a>
+                <a href="https://github.com/ciphercrypt" class="btn btn-secondary" target="_blank">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                    GitHub
+                </a>
+            </div>
+        </div>
+    </section>
+    
+    <section class="products" id="products">
+        <div class="container">
+            <div class="section-label">Products</div>
+            <h2 class="section-title">What we're building</h2>
+            
+            <div class="product-card featured">
+                <span class="featured-badge">Coming Soon</span>
+                <div class="product-header">
+                    <h3 class="product-name">DBMigrate</h3>
+                    <span class="product-status soon">Q1 2026</span>
+                </div>
+                <p class="product-desc">
+                    Secure database migrations with built-in secret detection, rollback protection, and audit logging. 
+                    Never accidentally commit credentials or break prod again.
+                </p>
+                <div class="product-features">
+                    <span class="feature">Pre-migration secret scanning</span>
+                    <span class="feature">Automatic rollback on failure</span>
+                    <span class="feature">Migration audit trail</span>
+                    <span class="feature">CI/CD integration</span>
+                    <span class="feature">Multi-database support</span>
+                    <span class="feature">Dry-run mode</span>
+                </div>
+                <div class="code-block">
+                    <code>
+                        <span class="cmd">$</span> dbmigrate run <span class="flag">--scan-secrets</span> <span class="flag">--dry-run</span><br>
+                        <span style="color: #22c55e;">✓</span> No secrets detected in migration files<br>
+                        <span style="color: #22c55e;">✓</span> Schema changes validated<br>
+                        <span style="color: #60a5fa;">→</span> Ready to apply 3 migrations
+                    </code>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-header">
+                    <h3 class="product-name">VaultSync</h3>
+                    <span class="product-status">Planned</span>
+                </div>
+                <p class="product-desc">
+                    Sync secrets between your vault (HashiCorp, AWS Secrets Manager, 1Password) and your local dev environment. 
+                    Rotate without redeploying.
+                </p>
+                <div class="product-features">
+                    <span class="feature">Multi-vault support</span>
+                    <span class="feature">Local .env sync</span>
+                    <span class="feature">Rotation webhooks</span>
+                </div>
+            </div>
+            
+            <div class="product-card">
+                <div class="product-header">
+                    <h3 class="product-name">AuditTrail</h3>
+                    <span class="product-status">Planned</span>
+                </div>
+                <p class="product-desc">
+                    Lightweight audit logging for database operations. Know who ran what query, when, and from where. 
+                    SOC2-ready without the enterprise price tag.
+                </p>
+                <div class="product-features">
+                    <span class="feature">Query logging</span>
+                    <span class="feature">User attribution</span>
+                    <span class="feature">Compliance exports</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <section class="about" id="about">
+        <div class="container about-grid">
+            <div>
+                <div class="section-label">About</div>
+                <h2 class="section-title">Built by builders</h2>
+                <p>
+                    CipherCrypt started from frustration. Too many security tools are built for demos and investor decks, 
+                    not for developers who need to ship.
+                </p>
+                <p>
+                    We're building the tools we wish existed: open-source where possible, reasonably priced where not, 
+                    and actually pleasant to use.
+                </p>
+                <p>
+                    Based in Indiana. Small team. Big ambitions.
+                </p>
+            </div>
+            <div class="values">
+                <div class="value">
+                    <h4>🔓 Open Source First</h4>
+                    <p>Core tools are open. Premium features fund development, not gatekeep basics.</p>
+                </div>
+                <div class="value">
+                    <h4>🛠️ Developer Experience</h4>
+                    <p>If it's annoying to use, people won't use it. Security that fits your workflow.</p>
+                </div>
+                <div class="value">
+                    <h4>📦 Actually Ships</h4>
+                    <p>Working software over roadmap slides. We build in public.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <div class="social-links">
+                <a href="https://github.com/ciphercrypt" target="_blank">GitHub</a>
+                <a href="https://x.com/CipherCryptt1" target="_blank">X / Twitter</a>
+                <a href="https://moltbook.com/u/CipherCrypt" target="_blank">Moltbook</a>
+            </div>
+            <p>© 2026 CipherCrypt. Building security tools that don't suck.</p>
+        </div>
+    </footer>
+</body>
+</html>
