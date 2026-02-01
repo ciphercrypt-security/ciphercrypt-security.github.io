@@ -3,58 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CipherCrypt - Security Tools for Modern Infrastructure</title>
-    <script>
-        // Simple dev access gate - remove this block for public launch
-        (function() {
-            const PASS = 'cipher2026';
-            const KEY = 'ciphercrypt_auth';
-            if (sessionStorage.getItem(KEY) !== 'true') {
-                const input = prompt('Developer Access - Enter password:');
-                if (input !== PASS) {
-                    document.body.innerHTML = '<div style="display:flex;height:100vh;align-items:center;justify-content:center;background:#0a0a0a;color:#fff;font-family:sans-serif;"><h1>🔒 Access Denied</h1></div>';
-                    throw new Error('Unauthorized');
-                }
-                sessionStorage.setItem(KEY, 'true');
-            }
-        })();
-    </script>
-    <meta name="description" content="Enterprise security tools: quantum key distribution, database migration security, penetration testing, and AI-powered consulting.">
+    <title>CipherCrypt - Enterprise Security for the Quantum Age</title>
+    <meta name="description" content="Quantum-safe cryptography, secure database migrations, and AI-powered security consulting. Built for enterprises that can't afford to wait.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #0a0a0a;
-            --surface: #141414;
-            --border: #262626;
-            --text: #fafafa;
-            --text-muted: #a1a1a1;
-            --accent: #22c55e;
-            --accent-dim: #16a34a;
-            --purple: #8b5cf6;
+            --bg: #050505;
+            --surface: rgba(255,255,255,0.03);
+            --surface-hover: rgba(255,255,255,0.06);
+            --border: rgba(255,255,255,0.08);
+            --border-hover: rgba(255,255,255,0.15);
+            --text: #ffffff;
+            --text-muted: rgba(255,255,255,0.6);
+            --accent: #00ff88;
+            --accent-glow: rgba(0,255,136,0.4);
+            --purple: #a855f7;
             --blue: #3b82f6;
-            --orange: #f97316;
+            --cyan: #06b6d4;
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { scroll-behavior: smooth; }
         
         body {
             font-family: 'Inter', -apple-system, sans-serif;
             background: var(--bg);
             color: var(--text);
             line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        /* Animated gradient background */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(0,255,136,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(168,85,247,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(6,182,212,0.05) 0%, transparent 70%);
+            animation: gradientShift 20s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+        
+        /* Video background */
+        .video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -3;
+            overflow: hidden;
+        }
+        
+        .video-bg video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.15;
+        }
+        
+        /* Noise texture overlay */
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.03;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
         }
         
         .container {
-            max-width: 1100px;
+            max-width: 1200px;
             margin: 0 auto;
             padding: 0 24px;
         }
         
         /* Header */
         header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
             padding: 20px 0;
+            backdrop-filter: blur(20px);
+            background: rgba(5,5,5,0.8);
             border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        
+        header.scrolled {
+            padding: 12px 0;
+            background: rgba(5,5,5,0.95);
         }
         
         .header-inner {
@@ -70,51 +124,151 @@
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            transition: transform 0.3s ease;
         }
         
+        .logo:hover { transform: scale(1.02); }
+        
         .logo-icon {
-            width: 32px;
-            height: 32px;
-            background: var(--accent);
-            border-radius: 8px;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent), var(--cyan));
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 20px;
+            box-shadow: 0 0 20px var(--accent-glow);
+            animation: logoPulse 3s ease-in-out infinite;
+        }
+        
+        @keyframes logoPulse {
+            0%, 100% { box-shadow: 0 0 20px var(--accent-glow); }
+            50% { box-shadow: 0 0 30px var(--accent-glow), 0 0 60px rgba(0,255,136,0.2); }
+        }
+        
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         nav a {
             color: var(--text-muted);
             text-decoration: none;
-            margin-left: 32px;
-            font-size: 0.95rem;
-            transition: color 0.2s;
+            padding: 10px 18px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
         }
         
-        nav a:hover { color: var(--text); }
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 6px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        
+        nav a:hover {
+            color: var(--text);
+        }
+        
+        nav a:hover::after {
+            width: 20px;
+        }
+        
+        .nav-cta {
+            background: var(--accent) !important;
+            color: #000 !important;
+            font-weight: 600 !important;
+            margin-left: 8px;
+        }
+        
+        .nav-cta:hover {
+            box-shadow: 0 0 30px var(--accent-glow);
+            transform: translateY(-2px);
+        }
+        
+        .nav-cta::after { display: none !important; }
         
         /* Hero */
         .hero {
-            padding: 120px 0 100px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 24px;
+            position: relative;
+        }
+        
+        .hero-content {
             text-align: center;
+            max-width: 900px;
+        }
+        
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 8px 16px;
+            border-radius: 100px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+            animation: fadeInUp 0.8s ease;
+        }
+        
+        .hero-badge .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
         }
         
         .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            line-height: 1.1;
-            margin-bottom: 24px;
-            background: linear-gradient(135deg, var(--text) 0%, var(--text-muted) 100%);
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 800;
+            line-height: 1.05;
+            margin-bottom: 28px;
+            letter-spacing: -0.03em;
+            animation: fadeInUp 0.8s ease 0.1s both;
+        }
+        
+        .hero h1 .gradient {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--cyan) 50%, var(--purple) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: gradientText 5s ease infinite;
+        }
+        
+        @keyframes gradientText {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
         
         .hero p {
             font-size: 1.25rem;
             color: var(--text-muted);
-            max-width: 650px;
-            margin: 0 auto 40px;
+            max-width: 600px;
+            margin: 0 auto 48px;
+            animation: fadeInUp 0.8s ease 0.2s both;
         }
         
         .cta-group {
@@ -122,276 +276,594 @@
             gap: 16px;
             justify-content: center;
             flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease 0.3s both;
         }
         
         .btn {
-            padding: 14px 28px;
-            border-radius: 8px;
+            padding: 16px 32px;
+            border-radius: 12px;
             font-size: 1rem;
-            font-weight: 500;
+            font-weight: 600;
             text-decoration: none;
-            transition: all 0.2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
         }
         
         .btn-primary {
-            background: var(--accent);
+            background: linear-gradient(135deg, var(--accent), #00cc6a);
             color: #000;
+            box-shadow: 0 4px 20px var(--accent-glow);
         }
         
         .btn-primary:hover {
-            background: var(--accent-dim);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 40px var(--accent-glow);
         }
         
         .btn-secondary {
             background: var(--surface);
             color: var(--text);
             border: 1px solid var(--border);
+            backdrop-filter: blur(10px);
         }
         
         .btn-secondary:hover {
-            border-color: var(--text-muted);
+            border-color: var(--accent);
+            background: var(--surface-hover);
+            transform: translateY(-3px);
+        }
+        
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+        
+        .scroll-indicator .mouse {
+            width: 24px;
+            height: 38px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            position: relative;
+        }
+        
+        .scroll-indicator .mouse::after {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 2px;
+            animation: scrollWheel 2s ease-in-out infinite;
+        }
+        
+        @keyframes scrollWheel {
+            0%, 100% { opacity: 1; top: 8px; }
+            50% { opacity: 0.3; top: 18px; }
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Stats bar */
+        .stats-bar {
+            padding: 60px 0;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            background: var(--surface);
+            backdrop-filter: blur(20px);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            font-weight: 500;
         }
         
         /* Products */
         .products {
-            padding: 80px 0;
+            padding: 120px 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 64px;
         }
         
         .section-label {
+            display: inline-block;
             font-size: 0.85rem;
             font-weight: 600;
             color: var(--accent);
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 12px;
+            letter-spacing: 0.15em;
+            margin-bottom: 16px;
+            padding: 6px 14px;
+            background: rgba(0,255,136,0.1);
+            border-radius: 100px;
+            border: 1px solid rgba(0,255,136,0.2);
         }
         
         .section-title {
-            font-size: 2.25rem;
+            font-size: clamp(2rem, 5vw, 3rem);
             font-weight: 700;
-            margin-bottom: 48px;
+            letter-spacing: -0.02em;
+        }
+        
+        .products-grid {
+            display: grid;
+            gap: 24px;
         }
         
         .product-card {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 40px;
-            margin-bottom: 24px;
+            border-radius: 24px;
+            padding: 48px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--accent), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .product-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+        }
+        
+        .product-card:hover::before {
+            opacity: 1;
         }
         
         .product-card.featured {
-            border-color: var(--accent);
-            position: relative;
+            background: linear-gradient(135deg, rgba(0,255,136,0.05), rgba(6,182,212,0.05));
+            border-color: rgba(0,255,136,0.2);
         }
         
-        .featured-badge {
+        .product-badge {
             position: absolute;
-            top: -12px;
-            left: 24px;
-            background: var(--accent);
+            top: 24px;
+            right: 24px;
+            background: linear-gradient(135deg, var(--accent), var(--cyan));
             color: #000;
-            font-size: 0.75rem;
-            font-weight: 600;
-            padding: 4px 12px;
-            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 6px;
             text-transform: uppercase;
-        }
-        
-        .product-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 20px;
-        }
-        
-        .product-name {
-            font-size: 1.5rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            letter-spacing: 0.05em;
         }
         
         .product-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 24px;
+            position: relative;
+        }
+        
+        .product-icon::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 20px;
+            background: inherit;
+            opacity: 0.3;
+            filter: blur(12px);
+            z-index: -1;
+        }
+        
+        .product-name {
             font-size: 1.75rem;
-        }
-        
-        .product-status {
-            font-size: 0.8rem;
-            padding: 4px 10px;
-            border-radius: 4px;
-            background: var(--border);
-            color: var(--text-muted);
-        }
-        
-        .product-status.soon {
-            background: rgba(34, 197, 94, 0.15);
-            color: var(--accent);
-        }
-        
-        .product-status.ready {
-            background: rgba(34, 197, 94, 0.25);
-            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 12px;
         }
         
         .product-desc {
             color: var(--text-muted);
-            margin-bottom: 24px;
             font-size: 1.05rem;
+            margin-bottom: 32px;
+            line-height: 1.7;
         }
         
         .product-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            display: flex;
+            flex-wrap: wrap;
             gap: 12px;
+            margin-bottom: 32px;
         }
         
-        .feature {
+        .feature-tag {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            padding: 8px 14px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 8px;
+            font-size: 0.85rem;
             color: var(--text-muted);
-            font-size: 0.95rem;
+            transition: all 0.3s ease;
         }
         
-        .feature::before {
-            content: "✓";
+        .feature-tag:hover {
+            background: rgba(0,255,136,0.1);
             color: var(--accent);
-            font-weight: bold;
+        }
+        
+        .feature-tag .icon {
+            color: var(--accent);
         }
         
         /* Code block */
         .code-block {
-            background: #000;
+            background: #0a0a0a;
             border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 24px;
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        
+        .code-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: rgba(255,255,255,0.02);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .code-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        
+        .code-dot.red { background: #ff5f56; }
+        .code-dot.yellow { background: #ffbd2e; }
+        .code-dot.green { background: #27ca40; }
+        
+        .code-content {
+            padding: 24px;
             overflow-x: auto;
         }
         
-        .code-block code {
+        .code-content code {
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.9rem;
+            line-height: 1.8;
             color: var(--text-muted);
         }
         
-        .code-block .cmd { color: var(--accent); }
-        .code-block .flag { color: #60a5fa; }
-        .code-block .string { color: #fbbf24; }
+        .code-content .cmd { color: var(--accent); }
+        .code-content .flag { color: var(--cyan); }
+        .code-content .string { color: #fbbf24; }
+        .code-content .comment { color: #6b7280; }
+        .code-content .success { color: var(--accent); }
         
         /* Services */
         .services {
-            padding: 80px 0;
-            border-top: 1px solid var(--border);
+            padding: 120px 0;
+            background: linear-gradient(180deg, transparent, var(--surface), transparent);
         }
         
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 24px;
         }
         
         .service-card {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 32px;
+            border-radius: 20px;
+            padding: 40px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 0%, rgba(0,255,136,0.1), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .service-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-8px) scale(1.02);
+        }
+        
+        .service-card:hover::before {
+            opacity: 1;
         }
         
         .service-icon {
-            font-size: 2.5rem;
-            margin-bottom: 16px;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, rgba(0,255,136,0.2), rgba(6,182,212,0.2));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 24px;
         }
         
         .service-card h3 {
             font-size: 1.25rem;
+            font-weight: 600;
             margin-bottom: 12px;
         }
         
         .service-card p {
             color: var(--text-muted);
             font-size: 0.95rem;
+            line-height: 1.7;
         }
         
         /* About */
         .about {
-            padding: 80px 0;
-            border-top: 1px solid var(--border);
+            padding: 120px 0;
         }
         
         .about-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 60px;
+            gap: 80px;
             align-items: center;
         }
         
-        .about p {
+        .about-content p {
             color: var(--text-muted);
-            margin-bottom: 16px;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            line-height: 1.8;
         }
         
         .values {
             display: grid;
-            gap: 24px;
+            gap: 20px;
         }
         
         .value {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 24px;
+            border-radius: 16px;
+            padding: 28px;
+            transition: all 0.3s ease;
+        }
+        
+        .value:hover {
+            border-color: var(--accent);
+            transform: translateX(8px);
         }
         
         .value h4 {
             font-size: 1.1rem;
+            font-weight: 600;
             margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
         .value p {
             font-size: 0.95rem;
+            color: var(--text-muted);
             margin: 0;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            padding: 120px 0;
+            text-align: center;
+            position: relative;
+        }
+        
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 100%, rgba(0,255,136,0.1), transparent 60%);
+        }
+        
+        .cta-section h2 {
+            font-size: clamp(2rem, 5vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        .cta-section p {
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
         
         /* Footer */
         footer {
-            padding: 40px 0;
+            padding: 60px 0;
             border-top: 1px solid var(--border);
-            text-align: center;
-            color: var(--text-muted);
-            font-size: 0.9rem;
+            background: var(--surface);
         }
         
-        footer a {
+        .footer-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 32px;
+        }
+        
+        .footer-links a {
             color: var(--text-muted);
             text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
         }
         
-        footer a:hover { color: var(--text); }
-        
-        .social-links {
-            margin-bottom: 16px;
+        .footer-links a:hover {
+            color: var(--accent);
         }
         
-        .social-links a {
-            margin: 0 12px;
+        .footer-copy {
+            color: var(--text-muted);
+            font-size: 0.85rem;
         }
         
         /* Responsive */
+        @media (max-width: 1024px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+            .about-grid { grid-template-columns: 1fr; gap: 48px; }
+        }
+        
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .about-grid { grid-template-columns: 1fr; gap: 40px; }
             nav { display: none; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .services-grid { grid-template-columns: 1fr; }
+            .product-card { padding: 32px; }
+            .footer-inner { flex-direction: column; gap: 24px; text-align: center; }
+        }
+        
+        /* Mobile menu */
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-menu-btn { display: block; }
+        }
+        
+        /* Intersection observer animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Cursor glow effect */
+        .cursor-glow {
+            position: fixed;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0,255,136,0.06), transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s ease;
         }
     </style>
 </head>
 <body>
-    <header>
+    <!-- Cursor glow -->
+    <div class="cursor-glow" id="cursorGlow"></div>
+    
+    <!-- Background -->
+    <div class="video-bg">
+        <video autoplay muted loop playsinline>
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-digital-animation-of-futuristic-devices-99786-large.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="bg-gradient"></div>
+    <div class="noise"></div>
+    
+    <header id="header">
         <div class="container header-inner">
             <a href="/" class="logo">
                 <span class="logo-icon">🔐</span>
@@ -401,104 +873,168 @@
                 <a href="#products">Products</a>
                 <a href="#services">Consulting</a>
                 <a href="#about">About</a>
-                <a href="/apps.html">All Products</a>
                 <a href="https://github.com/ciphercrypt-security" target="_blank">GitHub</a>
+                <a href="mailto:contact@ciphercrypt.pro" class="nav-cta">Contact</a>
             </nav>
+            <button class="mobile-menu-btn">☰</button>
         </div>
     </header>
     
     <section class="hero">
-        <div class="container">
-            <h1>Enterprise security<br>for the quantum age</h1>
-            <p>Quantum-safe cryptography, secure database migrations, penetration testing platforms, and AI-powered security consulting. Built for enterprises that can't afford to wait.</p>
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="dot"></span>
+                Now accepting enterprise clients
+            </div>
+            <h1>Enterprise security<br>for the <span class="gradient">quantum age</span></h1>
+            <p>Quantum-safe cryptography, secure database migrations, and AI-powered security consulting. Built for enterprises that can't afford to wait.</p>
             <div class="cta-group">
-                <a href="#products" class="btn btn-primary">View Products</a>
-                <a href="#services" class="btn btn-secondary">Consulting Services</a>
+                <a href="#products" class="btn btn-primary">
+                    Explore Products
+                    <span>→</span>
+                </a>
+                <a href="#services" class="btn btn-secondary">
+                    Consulting Services
+                </a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="mouse"></div>
+            <span>Scroll to explore</span>
+        </div>
+    </section>
+    
+    <section class="stats-bar">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat reveal">
+                    <div class="stat-value">60+</div>
+                    <div class="stat-label">Databases Supported</div>
+                </div>
+                <div class="stat reveal">
+                    <div class="stat-value">N-Party</div>
+                    <div class="stat-label">Quantum Key Distribution</div>
+                </div>
+                <div class="stat reveal">
+                    <div class="stat-value">40+</div>
+                    <div class="stat-label">Security Plugins</div>
+                </div>
+                <div class="stat reveal">
+                    <div class="stat-value">24/7</div>
+                    <div class="stat-label">Security Monitoring</div>
+                </div>
             </div>
         </div>
     </section>
     
     <section class="products" id="products">
         <div class="container">
-            <div class="section-label">Products</div>
-            <h2 class="section-title">Security infrastructure, built right</h2>
-            
-            <!-- QuantumVault -->
-            <div class="product-card featured">
-                <span class="featured-badge">Flagship</span>
-                <div class="product-header">
-                    <h3 class="product-name"><span class="product-icon">⚛️</span> QuantumVault</h3>
-                    <span class="product-status ready">Ready</span>
-                </div>
-                <p class="product-desc">
-                    Post-quantum key distribution as a service. Protect your encryption keys today against tomorrow's quantum computers. 
-                    Built on N-Party QKD with GHZ state verification and Mermin inequality testing.
-                </p>
-                <div class="product-features">
-                    <span class="feature">N-Party quantum key distribution</span>
-                    <span class="feature">GHZ state entanglement</span>
-                    <span class="feature">Mermin inequality verification</span>
-                    <span class="feature">Multi-tenant SaaS architecture</span>
-                    <span class="feature">REST API & SDK</span>
-                    <span class="feature">Full audit logging</span>
-                </div>
-                <div class="code-block">
-                    <code>
-                        <span class="cmd">$</span> curl -X POST https://api.quantumvault.io/v1/keys/generate \<br>
-                        &nbsp;&nbsp;<span class="flag">-H</span> <span class="string">"Authorization: Bearer $TOKEN"</span> \<br>
-                        &nbsp;&nbsp;<span class="flag">-d</span> <span class="string">'{"parties": 3, "key_length": 256}'</span><br><br>
-                        <span style="color: #22c55e;">✓</span> Key generated with quantum verification<br>
-                        <span style="color: #22c55e;">✓</span> Mermin inequality: S = 2.78 (classical limit: 2.0)
-                    </code>
-                </div>
+            <div class="section-header reveal">
+                <span class="section-label">Products</span>
+                <h2 class="section-title">Security infrastructure, built right</h2>
             </div>
             
-            <!-- DBMigrate -->
-            <div class="product-card featured">
-                <span class="featured-badge">Coming Soon</span>
-                <div class="product-header">
-                    <h3 class="product-name"><span class="product-icon">🗃️</span> DBMigrate</h3>
-                    <span class="product-status soon">Q1 2026</span>
+            <div class="products-grid">
+                <!-- QuantumVault -->
+                <div class="product-card featured reveal">
+                    <span class="product-badge">Flagship</span>
+                    <div class="product-icon" style="background: linear-gradient(135deg, #8b5cf6, #6d28d9);">⚛️</div>
+                    <h3 class="product-name">QuantumVault</h3>
+                    <p class="product-desc">
+                        Post-quantum key distribution as a service. Protect your encryption keys today against tomorrow's quantum computers. 
+                        Built on N-Party QKD with GHZ state verification and Mermin inequality testing.
+                    </p>
+                    <div class="product-features">
+                        <span class="feature-tag"><span class="icon">✓</span> N-Party QKD</span>
+                        <span class="feature-tag"><span class="icon">✓</span> GHZ Entanglement</span>
+                        <span class="feature-tag"><span class="icon">✓</span> Mermin Verification</span>
+                        <span class="feature-tag"><span class="icon">✓</span> Multi-tenant SaaS</span>
+                        <span class="feature-tag"><span class="icon">✓</span> REST API & SDK</span>
+                        <span class="feature-tag"><span class="icon">✓</span> Full Audit Logs</span>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-dot red"></span>
+                            <span class="code-dot yellow"></span>
+                            <span class="code-dot green"></span>
+                        </div>
+                        <div class="code-content">
+                            <code>
+                                <span class="cmd">$</span> curl -X POST https://api.quantumvault.io/v1/keys/generate \<br>
+                                &nbsp;&nbsp;<span class="flag">-H</span> <span class="string">"Authorization: Bearer $TOKEN"</span> \<br>
+                                &nbsp;&nbsp;<span class="flag">-d</span> <span class="string">'{"parties": 3, "key_length": 256}'</span><br><br>
+                                <span class="success">✓</span> Key generated with quantum verification<br>
+                                <span class="success">✓</span> Mermin inequality: S = 2.78 <span class="comment"># classical limit: 2.0</span>
+                            </code>
+                        </div>
+                    </div>
                 </div>
-                <p class="product-desc">
-                    Universal database migration with built-in security. Migrate any database to any database, any paradigm to any paradigm. 
-                    Secret scanning, rollback protection, and compliance-ready audit trails included.
-                </p>
-                <div class="product-features">
-                    <span class="feature">60+ database support</span>
-                    <span class="feature">9 paradigm conversions</span>
-                    <span class="feature">AI-powered stored procedure conversion</span>
-                    <span class="feature">Pre-migration secret scanning</span>
-                    <span class="feature">Automatic rollback on failure</span>
-                    <span class="feature">CLI, REST API, Docker</span>
+                
+                <!-- DBMigrate -->
+                <div class="product-card featured reveal">
+                    <span class="product-badge">Coming Q1</span>
+                    <div class="product-icon" style="background: linear-gradient(135deg, #22c55e, #16a34a);">🗃️</div>
+                    <h3 class="product-name">DBMigrate</h3>
+                    <p class="product-desc">
+                        Universal database migration with built-in security. Migrate any database to any database, any paradigm to any paradigm. 
+                        Secret scanning, rollback protection, and compliance-ready audit trails.
+                    </p>
+                    <div class="product-features">
+                        <span class="feature-tag"><span class="icon">✓</span> 60+ Databases</span>
+                        <span class="feature-tag"><span class="icon">✓</span> 9 Paradigms</span>
+                        <span class="feature-tag"><span class="icon">✓</span> AI SP Conversion</span>
+                        <span class="feature-tag"><span class="icon">✓</span> Secret Scanning</span>
+                        <span class="feature-tag"><span class="icon">✓</span> Auto Rollback</span>
+                        <span class="feature-tag"><span class="icon">✓</span> CLI + REST + Docker</span>
+                    </div>
+                    <div class="code-block">
+                        <div class="code-header">
+                            <span class="code-dot red"></span>
+                            <span class="code-dot yellow"></span>
+                            <span class="code-dot green"></span>
+                        </div>
+                        <div class="code-content">
+                            <code>
+                                <span class="cmd">$</span> dbmigrate run <span class="flag">--source</span> oracle <span class="flag">--target</span> postgres <span class="flag">--scan-secrets</span><br><br>
+                                <span class="success">✓</span> No secrets detected in migration files<br>
+                                <span class="success">✓</span> 847 tables analyzed, 12 SPs converted<br>
+                                <span class="comment">→</span> Migration complete in 4m 32s
+                            </code>
+                        </div>
+                    </div>
                 </div>
-                <div class="code-block">
-                    <code>
-                        <span class="cmd">$</span> dbmigrate run <span class="flag">--source</span> oracle <span class="flag">--target</span> postgres <span class="flag">--scan-secrets</span><br>
-                        <span style="color: #22c55e;">✓</span> No secrets detected in migration files<br>
-                        <span style="color: #22c55e;">✓</span> 847 tables analyzed, 12 SPs converted<br>
-                        <span style="color: #60a5fa;">→</span> Migration complete in 4m 32s
-                    </code>
+                
+                <!-- CyberGuard -->
+                <div class="product-card reveal">
+                    <div class="product-icon" style="background: linear-gradient(135deg, #ef4444, #dc2626);">🛡️</div>
+                    <h3 class="product-name">CyberGuard Pro</h3>
+                    <p class="product-desc">
+                        Enterprise security assessment platform. Unified interface for penetration testing, vulnerability scanning, 
+                        and compliance reporting. Plugin architecture with 40+ integrations.
+                    </p>
+                    <div class="product-features">
+                        <span class="feature-tag"><span class="icon">✓</span> Metasploit</span>
+                        <span class="feature-tag"><span class="icon">✓</span> OWASP ZAP</span>
+                        <span class="feature-tag"><span class="icon">✓</span> SCAP Compliance</span>
+                        <span class="feature-tag"><span class="icon">✓</span> PDF Reports</span>
+                        <span class="feature-tag"><span class="icon">✓</span> 40+ Plugins</span>
+                    </div>
                 </div>
-            </div>
-            
-            <!-- CyberGuard Pro -->
-            <div class="product-card">
-                <div class="product-header">
-                    <h3 class="product-name"><span class="product-icon">🛡️</span> CyberGuard Pro</h3>
-                    <span class="product-status">In Development</span>
-                </div>
-                <p class="product-desc">
-                    Enterprise security assessment platform. Unified interface for penetration testing, vulnerability scanning, and compliance reporting.
-                    Plugin architecture for extensibility.
-                </p>
-                <div class="product-features">
-                    <span class="feature">Metasploit integration</span>
-                    <span class="feature">OWASP ZAP scanning</span>
-                    <span class="feature">SCAP compliance checks</span>
-                    <span class="feature">Automated PDF reports</span>
-                    <span class="feature">Plugin architecture (Pluggy)</span>
-                    <span class="feature">License validation system</span>
+                
+                <!-- BugHunter -->
+                <div class="product-card reveal">
+                    <div class="product-icon" style="background: linear-gradient(135deg, #f97316, #ea580c);">🎯</div>
+                    <h3 class="product-name">BugHunter AI</h3>
+                    <p class="product-desc">
+                        Reinforcement learning-powered vulnerability discovery. Autonomous security testing using PPO policy networks. 
+                        60+ attack vectors with Gymnasium-based training environment.
+                    </p>
+                    <div class="product-features">
+                        <span class="feature-tag"><span class="icon">✓</span> RL-Powered</span>
+                        <span class="feature-tag"><span class="icon">✓</span> Autonomous</span>
+                        <span class="feature-tag"><span class="icon">✓</span> 60+ Attacks</span>
+                        <span class="feature-tag"><span class="icon">✓</span> PyTorch</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -506,43 +1042,45 @@
     
     <section class="services" id="services">
         <div class="container">
-            <div class="section-label">Services</div>
-            <h2 class="section-title">AI-Powered Security Consulting</h2>
+            <div class="section-header reveal">
+                <span class="section-label">Services</span>
+                <h2 class="section-title">AI-Powered Security Consulting</h2>
+            </div>
             
             <div class="services-grid">
-                <div class="service-card">
+                <div class="service-card reveal">
                     <div class="service-icon">🤖</div>
                     <h3>Agent-Driven Assessments</h3>
-                    <p>Our AI agents work alongside human experts to conduct thorough security assessments. Faster discovery, deeper coverage, consistent methodology.</p>
+                    <p>AI agents work alongside human experts for thorough security assessments. Faster discovery, deeper coverage, consistent methodology.</p>
                 </div>
                 
-                <div class="service-card">
+                <div class="service-card reveal">
                     <div class="service-icon">🔬</div>
                     <h3>Quantum Readiness Audit</h3>
-                    <p>Evaluate your cryptographic infrastructure against post-quantum threats. Get a roadmap for quantum-safe migration before it's urgent.</p>
+                    <p>Evaluate your cryptographic infrastructure against post-quantum threats. Get a migration roadmap before it's urgent.</p>
                 </div>
                 
-                <div class="service-card">
+                <div class="service-card reveal">
                     <div class="service-icon">📊</div>
                     <h3>GRC Automation</h3>
-                    <p>Automate governance, risk, and compliance workflows with AI. SOC2, ISO 27001, NIST—continuous compliance instead of annual fire drills.</p>
+                    <p>Automate governance, risk, and compliance workflows. SOC2, ISO 27001, NIST—continuous compliance, not annual fire drills.</p>
                 </div>
                 
-                <div class="service-card">
+                <div class="service-card reveal">
                     <div class="service-icon">🔄</div>
                     <h3>Database Security Review</h3>
                     <p>Pre-migration security audits, access control reviews, and data classification. Know your risk before you move.</p>
                 </div>
                 
-                <div class="service-card">
+                <div class="service-card reveal">
                     <div class="service-icon">🎯</div>
                     <h3>Red Team Operations</h3>
-                    <p>Adversary simulation with full-spectrum attack testing. Find the gaps before attackers do.</p>
+                    <p>Adversary simulation with full-spectrum attack testing. Find the gaps before real attackers do.</p>
                 </div>
                 
-                <div class="service-card">
+                <div class="service-card reveal">
                     <div class="service-icon">📚</div>
-                    <h3>Security Architecture Review</h3>
+                    <h3>Security Architecture</h3>
                     <p>Design review for new systems, cloud migrations, and infrastructure changes. Build security in from the start.</p>
                 </div>
             </div>
@@ -551,8 +1089,8 @@
     
     <section class="about" id="about">
         <div class="container about-grid">
-            <div>
-                <div class="section-label">About</div>
+            <div class="about-content reveal">
+                <span class="section-label">About</span>
                 <h2 class="section-title">Security expertise,<br>modern approach</h2>
                 <p>
                     CipherCrypt combines deep security expertise with cutting-edge technology. 
@@ -564,11 +1102,11 @@
                     We're preparing enterprises for threats that don't exist yet—because by the time they do, 
                     it's too late.
                 </p>
-                <p>
+                <p style="color: var(--accent); font-weight: 500;">
                     Based in Indiana. CISSP-certified. Building the future of enterprise security.
                 </p>
             </div>
-            <div class="values">
+            <div class="values reveal">
                 <div class="value">
                     <h4>⚛️ Quantum-First Thinking</h4>
                     <p>Post-quantum cryptography isn't optional—it's inevitable. We help you get ahead of the curve.</p>
@@ -585,15 +1123,87 @@
         </div>
     </section>
     
+    <section class="cta-section">
+        <div class="container reveal">
+            <h2>Ready to secure your future?</h2>
+            <p>Get in touch to discuss your security needs or schedule a quantum readiness assessment.</p>
+            <a href="mailto:contact@ciphercrypt.pro" class="btn btn-primary">
+                Start a Conversation
+                <span>→</span>
+            </a>
+        </div>
+    </section>
+    
     <footer>
-        <div class="container">
-            <div class="social-links">
+        <div class="container footer-inner">
+            <div class="footer-links">
                 <a href="https://github.com/ciphercrypt-security" target="_blank">GitHub</a>
                 <a href="https://x.com/CipherCryptt1" target="_blank">X / Twitter</a>
                 <a href="https://moltbook.com/u/CipherCrypt" target="_blank">Moltbook</a>
             </div>
-            <p>© 2026 CipherCrypt. Enterprise security for the quantum age.</p>
+            <div class="footer-copy">
+                © 2026 CipherCrypt. Enterprise security for the quantum age.
+            </div>
         </div>
     </footer>
+    
+    <script>
+        // Cursor glow effect
+        const cursorGlow = document.getElementById('cursorGlow');
+        let mouseX = 0, mouseY = 0;
+        let glowX = 0, glowY = 0;
+        
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+        
+        function animateGlow() {
+            glowX += (mouseX - glowX) * 0.1;
+            glowY += (mouseY - glowY) * 0.1;
+            cursorGlow.style.left = glowX + 'px';
+            cursorGlow.style.top = glowY + 'px';
+            requestAnimationFrame(animateGlow);
+        }
+        animateGlow();
+        
+        // Header scroll effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Intersection observer for reveal animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+        
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
