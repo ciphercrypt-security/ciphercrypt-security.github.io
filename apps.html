@@ -4,21 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Products - CipherCrypt</title>
+    
+    <!-- Auth Gate - blocks rendering until authenticated -->
     <script>
-        // Auth check - same as main site
-        (function() {
-            const PASS = 'cipher2026';
-            const KEY = 'ciphercrypt_auth';
-            if (sessionStorage.getItem(KEY) !== 'true') {
-                const input = prompt('Developer Access - Enter password:');
-                if (input !== PASS) {
-                    document.body.innerHTML = '<div style="display:flex;height:100vh;align-items:center;justify-content:center;background:#0a0a0a;color:#fff;font-family:sans-serif;"><h1>🔒 Access Denied</h1></div>';
-                    throw new Error('Unauthorized');
-                }
-                sessionStorage.setItem(KEY, 'true');
+    (function() {
+        const PASS_HASH = '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a9e6'; // SHA-256 of password
+        const KEY = 'cc_auth_v2';
+        const EXPIRY = 24 * 60 * 60 * 1000; // 24 hours
+        
+        function checkAuth() {
+            const stored = localStorage.getItem(KEY);
+            if (stored) {
+                try {
+                    const { hash, time } = JSON.parse(stored);
+                    if (hash === PASS_HASH && Date.now() - time < EXPIRY) {
+                        return true;
+                    }
+                } catch(e) {}
             }
-        })();
+            return false;
+        }
+        
+        if (!checkAuth()) {
+            window.location.href = '/';
+        }
+    })();
     </script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <style>

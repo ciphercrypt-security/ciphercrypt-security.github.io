@@ -5,6 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CipherCrypt - Enterprise Security for the Quantum Age</title>
     <meta name="description" content="Quantum-safe cryptography, secure database migrations, and AI-powered security consulting. Built for enterprises that can't afford to wait.">
+    
+    <!-- Auth Gate - blocks rendering until authenticated -->
+    <script>
+    (function() {
+        const PASS_HASH = '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a9e6'; // SHA-256 of password
+        const KEY = 'cc_auth_v2';
+        const EXPIRY = 24 * 60 * 60 * 1000; // 24 hours
+        
+        function sha256(str) {
+            const encoder = new TextEncoder();
+            const data = encoder.encode(str);
+            return crypto.subtle.digest('SHA-256', data).then(hash => {
+                return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+            });
+        }
+        
+        function checkAuth() {
+            const stored = localStorage.getItem(KEY);
+            if (stored) {
+                try {
+                    const { hash, time } = JSON.parse(stored);
+                    if (hash === PASS_HASH && Date.now() - time < EXPIRY) {
+                        return true;
+                    }
+                } catch(e) {}
+            }
+            return false;
+        }
+        
+        function block() {
+            document.documentElement.innerHTML = '<html><head><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#050505;color:#fff;font-family:Inter,-apple-system,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}.gate{text-align:center;padding:40px}.logo{font-size:2rem;margin-bottom:40px;display:flex;align-items:center;justify-content:center;gap:12px}.logo-icon{width:48px;height:48px;background:linear-gradient(135deg,#00ff88,#06b6d4);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px}h1{font-size:1.5rem;font-weight:600;margin-bottom:8px}p{color:rgba(255,255,255,0.6);margin-bottom:32px}input{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:14px 20px;font-size:1rem;color:#fff;width:280px;margin-bottom:16px;outline:none;transition:border-color 0.3s}input:focus{border-color:#00ff88}button{background:linear-gradient(135deg,#00ff88,#00cc6a);color:#000;border:none;border-radius:8px;padding:14px 32px;font-size:1rem;font-weight:600;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s}button:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,255,136,0.3)}.error{color:#ff6b6b;font-size:0.9rem;margin-top:12px;display:none}</style></head><body><div class="gate"><div class="logo"><span class="logo-icon">🔐</span>CipherCrypt</div><h1>Authorized Access Only</h1><p>This site is in private preview.</p><form id="authForm"><input type="password" id="pass" placeholder="Enter access code" autocomplete="off"><br><button type="submit">Authenticate</button><div class="error" id="error">Invalid access code</div></form></div><script>document.getElementById("authForm").addEventListener("submit",async function(e){e.preventDefault();const p=document.getElementById("pass").value;const encoder=new TextEncoder();const data=encoder.encode(p);const hashBuf=await crypto.subtle.digest("SHA-256",data);const hash=Array.from(new Uint8Array(hashBuf)).map(b=>b.toString(16).padStart(2,"0")).join("");if(hash==="8c6976e5b5410415bde908bd4dee15dfb167a9e6873fc4bb8a81f6f2ab448a9e6"){localStorage.setItem("cc_auth_v2",JSON.stringify({hash:hash,time:Date.now()}));location.reload()}else{document.getElementById("error").style.display="block"}});</script></body></html>';
+        }
+        
+        if (!checkAuth()) {
+            block();
+            throw new Error('Auth required');
+        }
+    })();
+    </script>
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
